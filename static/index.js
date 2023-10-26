@@ -1,1 +1,1 @@
-import '../shared/style';
+import "../shared/style";
