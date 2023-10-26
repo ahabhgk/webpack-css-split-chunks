@@ -1,115 +1,43 @@
 # webpack css + splitChunks: red or blue?
 
-| import | css | splitChunks chunks | splitChunks a priority | splitChunks b priority | color |
-|--------|-----|--------------------|------------------------|------------------------|-------|
-static|style-loader|all|0|0|blue
-static|style-loader|all|0|10|blue
-static|style-loader|all|0|20|blue
-static|style-loader|all|10|0|blue
-static|style-loader|all|10|10|blue
-static|style-loader|all|10|20|blue
-static|style-loader|all|20|0|blue
-static|style-loader|all|20|10|blue
-static|style-loader|all|20|20|blue
-static|style-loader|async|0|0|blue
-static|style-loader|async|0|10|blue
-static|style-loader|async|0|20|blue
-static|style-loader|async|10|0|blue
-static|style-loader|async|10|10|blue
-static|style-loader|async|10|20|blue
-static|style-loader|async|20|0|blue
-static|style-loader|async|20|10|blue
-static|style-loader|async|20|20|blue
-static|experiments|all|0|0|red
-static|experiments|all|0|10|red
-static|experiments|all|0|20|red
-static|experiments|all|10|0|blue
-static|experiments|all|10|10|red
-static|experiments|all|10|20|red
-static|experiments|all|20|0|blue
-static|experiments|all|20|10|blue
-static|experiments|all|20|20|red
-static|experiments|async|0|0|blue
-static|experiments|async|0|10|blue
-static|experiments|async|0|20|blue
-static|experiments|async|10|0|blue
-static|experiments|async|10|10|blue
-static|experiments|async|10|20|blue
-static|experiments|async|20|0|blue
-static|experiments|async|20|10|blue
-static|experiments|async|20|20|blue
-static|mini-css|all|0|0|red
-static|mini-css|all|0|10|red
-static|mini-css|all|0|20|red
-static|mini-css|all|10|0|blue
-static|mini-css|all|10|10|red
-static|mini-css|all|10|20|red
-static|mini-css|all|20|0|blue
-static|mini-css|all|20|10|blue
-static|mini-css|all|20|20|red
-static|mini-css|async|0|0|blue
-static|mini-css|async|0|10|blue
-static|mini-css|async|0|20|blue
-static|mini-css|async|10|0|blue
-static|mini-css|async|10|10|blue
-static|mini-css|async|10|20|blue
-static|mini-css|async|20|0|blue
-static|mini-css|async|20|10|blue
-static|mini-css|async|20|20|blue
-dynamic|style-loader|all|0|0|blue
-dynamic|style-loader|all|0|10|blue
-dynamic|style-loader|all|0|20|blue
-dynamic|style-loader|all|10|0|blue
-dynamic|style-loader|all|10|10|blue
-dynamic|style-loader|all|10|20|blue
-dynamic|style-loader|all|20|0|blue
-dynamic|style-loader|all|20|10|blue
-dynamic|style-loader|all|20|20|blue
-dynamic|style-loader|async|0|0|blue
-dynamic|style-loader|async|0|10|blue
-dynamic|style-loader|async|0|20|blue
-dynamic|style-loader|async|10|0|blue
-dynamic|style-loader|async|10|10|blue
-dynamic|style-loader|async|10|20|blue
-dynamic|style-loader|async|20|0|blue
-dynamic|style-loader|async|20|10|blue
-dynamic|style-loader|async|20|20|blue
-dynamic|experiments|all|0|0|red
-dynamic|experiments|all|0|10|red
-dynamic|experiments|all|0|20|red
-dynamic|experiments|all|10|0|blue
-dynamic|experiments|all|10|10|red
-dynamic|experiments|all|10|20|red
-dynamic|experiments|all|20|0|blue
-dynamic|experiments|all|20|10|blue
-dynamic|experiments|all|20|20|red
-dynamic|experiments|async|0|0|red
-dynamic|experiments|async|0|10|red
-dynamic|experiments|async|0|20|red
-dynamic|experiments|async|10|0|blue
-dynamic|experiments|async|10|10|red
-dynamic|experiments|async|10|20|red
-dynamic|experiments|async|20|0|blue
-dynamic|experiments|async|20|10|blue
-dynamic|experiments|async|20|20|red
-dynamic|mini-css|all|0|0|red
-dynamic|mini-css|all|0|10|red
-dynamic|mini-css|all|0|20|red
-dynamic|mini-css|all|10|0|blue
-dynamic|mini-css|all|10|10|red
-dynamic|mini-css|all|10|20|red
-dynamic|mini-css|all|20|0|blue
-dynamic|mini-css|all|20|10|blue
-dynamic|mini-css|all|20|20|red
-dynamic|mini-css|async|0|0|red
-dynamic|mini-css|async|0|10|red
-dynamic|mini-css|async|0|20|red
-dynamic|mini-css|async|10|0|blue
-dynamic|mini-css|async|10|10|red
-dynamic|mini-css|async|10|20|red
-dynamic|mini-css|async|20|0|blue
-dynamic|mini-css|async|20|10|blue
-dynamic|mini-css|async|20|20|red
+| No. | import | css | splitChunks chunks | splitChunks priority | color |
+|-----|--------|-----|--------------------|----------------------|-------|
+| 0 |style-loader|static|all|a = b|blue|
+| 1 |style-loader|static|all|a > b|blue|
+| 2 |style-loader|static|all|a < b|blue|
+| 3 |style-loader|static|async|a = b|blue|
+| 4 |style-loader|static|async|a > b|blue|
+| 5 |style-loader|static|async|a < b|blue|
+| 6 |style-loader|dynamic|all|a = b|blue|
+| 7 |style-loader|dynamic|all|a > b|blue|
+| 8 |style-loader|dynamic|all|a < b|blue|
+| 9 |style-loader|dynamic|async|a = b|blue|
+| 10 |style-loader|dynamic|async|a > b|blue|
+| 11 |style-loader|dynamic|async|a < b|blue|
+| 12 |experiments|static|all|a = b|red|
+| 13 |experiments|static|all|a > b|blue|
+| 14 |experiments|static|all|a < b|red|
+| 15 |experiments|static|async|a = b|blue|
+| 16 |experiments|static|async|a > b|blue|
+| 17 |experiments|static|async|a < b|blue|
+| 18 |experiments|dynamic|all|a = b|red|
+| 19 |experiments|dynamic|all|a > b|blue|
+| 20 |experiments|dynamic|all|a < b|red|
+| 21 |experiments|dynamic|async|a = b|red|
+| 22 |experiments|dynamic|async|a > b|blue|
+| 23 |experiments|dynamic|async|a < b|red|
+| 24 |mini-css|static|all|a = b|red|
+| 25 |mini-css|static|all|a > b|blue|
+| 26 |mini-css|static|all|a < b|red|
+| 27 |mini-css|static|async|a = b|blue|
+| 28 |mini-css|static|async|a > b|blue|
+| 29 |mini-css|static|async|a < b|blue|
+| 30 |mini-css|dynamic|all|a = b|red|
+| 31 |mini-css|dynamic|all|a > b|blue|
+| 32 |mini-css|dynamic|all|a < b|red|
+| 33 |mini-css|dynamic|async|a = b|red|
+| 34 |mini-css|dynamic|async|a > b|blue|
+| 35 |mini-css|dynamic|async|a < b|red|
 
 # Why?
 

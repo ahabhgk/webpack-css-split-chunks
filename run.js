@@ -7,10 +7,21 @@ const WebpackDevServer = require("webpack-dev-server");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
-function createConfig(context, css, chunks, aPriority, bPriority) {
+function throwError() {
+  throw new Error("panic")
+}
+
+function createConfig(css, context, chunks, priority) {
   const styleLoader = css === 'style-loader';
   const experimentsCss = css === 'experiments';
   const miniCss = css === 'mini-css';
+  const [aPriority, bPriority] = priority === "a = b"
+    ? [0, 0]
+    : priority === "a > b"
+    ? [10, 0]
+    : priority === "a < b"
+    ? [0, 10]
+    : throwError()
  
   /** @type {import("webpack").Configuration} */
   const config = {
@@ -59,21 +70,19 @@ function createConfig(context, css, chunks, aPriority, bPriority) {
   return config;
 }
 
-const availableContext = ["static", "dynamic"];
 const availableCss = ["style-loader", "experiments", "mini-css"];
+const availableContext = ["static", "dynamic"];
 const availableChunks = ["all", "async"];
-const availableAPriorty = [0, 10, 20]
-const availableBPriorty = [0, 10, 20]
+const availablePriorty = ["a = b", "a > b", "a < b"]
 
 function combine(arr1, arr2) {
   return arr1.flatMap(a => arr2.map(b => [...a, b]))
 }
 
-const combs = [availableContext.map(i => [i])]
-  .map(i => combine(i, availableCss))
+const combs = [availableCss.map(i => [i])]
+  .map(i => combine(i, availableContext))
   .map(i => combine(i, availableChunks))
-  .map(i => combine(i, availableAPriorty))
-  .map(i => combine(i, availableBPriorty))
+  .map(i => combine(i, availablePriorty))
   .flat();
 
 const limit = pLimit(10);
@@ -88,16 +97,16 @@ Promise.all(combs.map((comb, index) => limit(async () => {
   await page.goto(`http://localhost:${port}`);
   const body = await page.$('body');
   const rgb = await body.evaluate((body) => getComputedStyle(body).backgroundColor)
-  const color = rgb === 'rgb(0, 0, 255)' ? 'blue' : rgb === 'rgb(255, 0, 0)' ? 'red' : 'ERROR';
+  const color = rgb === 'rgb(0, 0, 255)' ? 'blue' : rgb === 'rgb(255, 0, 0)' ? 'red' : throwError();
   await browser.close();
   await devServer.stop();
   return [...comb, color]
 }))).then(async results => {
   const tableHead = `
-| import | css | splitChunks chunks | splitChunks a priority | splitChunks b priority | color |
-|--------|-----|--------------------|------------------------|------------------------|-------|
+| No. | import | css | splitChunks chunks | splitChunks priority | color |
+|-----|--------|-----|--------------------|----------------------|-------|
 `;
-  const tableBody = results.map(result => result.join('|')).join('\n');
+  const tableBody = results.map((result, index) => `| ${index} |${result.join('|')}|`).join('\n');
   const table = tableHead + tableBody;
   const title = '# webpack css + splitChunks: red or blue?\n';
   const explanation = await fs.promises.readFile(path.resolve(__dirname, 'explanation.md'), 'utf-8');
