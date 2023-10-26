@@ -1,0 +1,21 @@
+{
+  "name": "webpack-css-split-chunks",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "arg": "^5.0.2",
+    "css-loader": "^6.8.1",
+    "html-webpack-plugin": "^5.5.3",
+    "mini-css-extract-plugin": "^2.7.6",
+    "p-limit": "^3.1.0",
+    "puppeteer": "^21.4.1",
+    "style-loader": "^3.3.3",
+    "webpack": "^5.89.0",
+    "webpack-dev-server": "^4.15.1"
+  }
+}
