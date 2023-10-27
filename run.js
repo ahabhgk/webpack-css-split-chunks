@@ -86,12 +86,10 @@ const combs = [availableCss.map((i) => [i])]
 
 const limit = pLimit(10);
 
-const args = arg({
-  "--single": Number,
-});
-const single = args["--single"];
-
 (async function main() {
+  const args = arg({ "--single": Number });
+  const single = args["--single"];
+
   if (single) {
     const comb = combs[single];
     const compiler = webpack(createConfig(...comb));
