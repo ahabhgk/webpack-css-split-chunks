@@ -41,4 +41,4 @@
 
 # Why?
 
-TODO
+See https://github.com/orgs/web-infra-dev/discussions/12
